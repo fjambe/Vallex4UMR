@@ -33,10 +33,10 @@ def store_wordnet(filename):
         return defs
 
 
-def retrieve_synset_def(umr_entry, entries_dict, defs):
-    """Function to retrieve the synset definition given the synset id."""
-    synset_id = entries_dict[umr_entry]['synset_id']
-    return defs.get(synset_id)
+def retrieve_synset_def(syn_id, defs):
+    """Function to retrieve the synset definition given the synset id,
+    or the brand-new definition created when a WN synset was not available."""
+    return " + ".join([defs.get(s, 'Unknown') for s in syn_id.split('/')])
 
 
 def store_uris_from_mapping(mapping_file):
@@ -46,7 +46,68 @@ def store_uris_from_mapping(mapping_file):
 
 def retrieve_uri(umr_entry, stored_uris):
     """Function to retrieve the URI given the UMR id."""
-    return stored_uris.get(umr_entry)
+    # Handle merged entries: get the first part before the first '/'
+    base_entry = umr_entry.split('/')[0]  # to handle merged entries, that share the URI anyway
+    if 'NEW' in base_entry:
+        base_entry = base_entry.split('-')[0] + "-01"  # the URI is shared for the same lemma, so any word sense is fine
+    return stored_uris.get(base_entry)
+
+
+def create_entries(infos, row):
+    mpd_entry = row['UMR']
+    if mpd_entry not in infos:
+        # Create the entry for Vallex4UMR, by first extracting the UMR key
+        synset_def = retrieve_synset_def(row['synset_id'], definitions)
+        infos[mpd_entry] = {
+            # Lists are used in case it is necessary to add more than one id to a same entry
+            'LDT_id': [row['id'] + f' (par.{par})'],
+            'v1_frame': [row['V1 frame']],
+            'example': [row['example']],
+            'roles': row['roles'],
+            'lemma': row['lemma'],
+            'synset_id': row['synset_id'] if row['synset_id'] else 'NA',
+            'URI_lemma': retrieve_uri(mpd_entry, uris),
+            'definition': synset_def if synset_def != 'Unknown' else row['definition'],
+            'POS': 'NOUN' if row['synset_id'].split('#')[0] == 'n' else 'VERB' if row['synset_id'].split('#')[0] == 'v' else row['synset_id'].split('#')[0],
+            'notes': row['notes'],  # da valutare se tenere
+            'gramm_info': row['gramm_info']  # No conflicts, so no need to update it for duplicate entries.
+        }
+    else:
+        infos[mpd_entry]['LDT_id'].append(lines['id'] + f' (par.{par})')
+        infos[mpd_entry]['v1_frame'].append(lines['V1 frame'])
+        infos[mpd_entry]['example'].append(lines['example'])
+        # TODO: lemma, synset_id, URI_lemma, definition will be the same.
+        # TODO: decide what to do with notes.
+        # if lines['roles'] != infos[mapped_entry]['roles']:
+        #     warnings.warn(f"Mismatch in roles:{lines['roles']} VS. {infos[mapped_entry]['roles']}."
+        #                   f"Check the entry with LDT id {lines['id']}.")
+        # if lines['notes'] != infos[mapped_entry]['notes']:
+        #     warnings.warn(f"Mismatch in notes:{lines['notes']} VS. {infos[mapped_entry]['notes']}."
+        #                   f"Check the entry with LDT id {lines['id']}.")
+    return infos
+
+
+def format_info(info):
+    """Format the information for a single entry before printing it out."""
+    return (
+        f": id: {info.get('entry', 'NA')}\n"
+        f" : synset id: {info.get('synset_id', 'NA')}\n"
+        f" : synset definition: {info.get('definition', 'NA')}\n"
+        f" : lemma URI: {info.get('URI_lemma', 'NA')}\n"
+        f" + {info.get('roles', 'NA')}\n"
+        f" \t-POS: {info.get('POS', 'NA')}\n"
+        f" \t-Vallex1_id: {'; '.join(info.get('v1_frame', []))}\n"
+        f" \t-example: {'; '.join(info.get('example', []))}\n"
+        f" \t-LDT_ids: {'; '.join(info.get('LDT_id', []))}\n"
+    )
+
+
+def process_entries(after_mapping, outfile):
+    """Process and print all entries in after_mapping."""
+    for entry, info in after_mapping.items():
+        header = f"\n* {entry.split('-')[0].upper()}\n"
+        entry_info = format_info({**info, 'entry': entry})
+        print(header, entry_info, file=outfile)
 
 
 if __name__ == "__main__":
@@ -79,61 +140,24 @@ if __name__ == "__main__":
                         # Ignore entries annotated as UMR abstract predicates
                         if lines['UMR'].endswith('-91'):
                             continue
-                        # Ignore not well-formed entries
-                        if not re.match(r"^[a-zA-Z]+-\d{2}$", lines['UMR']):
-                            continue
-                        else:
-                            # Create the entry for Vallex4UMR, by first extracting the UMR key
-                            mapped_entry = lines['UMR']
-                            if mapped_entry not in after_mapping:
-                                # Lists are used in case it is necessary to add more than one id to a same entry
-                                after_mapping[mapped_entry] = {
-                                    'LDT_id': [lines['id'] + f' (par.{par})'],
-                                    'v1_frame': [lines['V1 frame']],
-                                    'example': [lines['example']],
-                                    'roles': lines['roles'],
-                                    'lemma': lines['lemma'],
-                                    'synset_id': lines['synset id'],
-                                    'URI_lemma': lines['URI lemma'],
-                                    'definition': lines['definition'],
-                                    'notes': lines['notes'],  # da valutare se tenere
-                                    'gramm_info': lines['gramm_info']  # No conflicts, so no need to update it for duplicate entries.
-                                }
-
-                            else:
-                                after_mapping[mapped_entry]['LDT_id'].append(lines['id'] + f' (par.{par})')
-                                after_mapping[mapped_entry]['v1_frame'].append(lines['V1 frame'])
-                                after_mapping[mapped_entry]['example'].append(lines['example'])
-                                # TODO: lemma, synset_id, URI_lemma, definition will be the same.
-                                # TODO: decide what to do with notes.
-                                # if lines['roles'] != after_mapping[mapped_entry]['roles']:
-                                #     warnings.warn(f"Mismatch in roles:{lines['roles']} VS. {after_mapping[mapped_entry]['roles']}."
-                                #                   f"Check the entry with LDT id {lines['id']}.")
-                                # if lines['notes'] != after_mapping[mapped_entry]['notes']:
-                                #     warnings.warn(f"Mismatch in notes:{lines['notes']} VS. {after_mapping[mapped_entry]['notes']}."
-                                #                   f"Check the entry with LDT id {lines['id']}.")
+                        # Consider only well-formed entries
+                        # 1. standard patterns (dico-01, dico2-01, dico-NEW-23)
+                        # 2. merged entries (polliceor-01/polliceor-02)
+                        if re.match(r"^[a-zA-Z]+(\d)?(-NEW)?-\d{2}(/[a-zA-Z]+(\d)?(-NEW)?-\d{2})*$", lines["UMR"]):
+                            create_entries(after_mapping, lines)
 
                 # Sort the mapped dictionary alphanumerically
                 sorted_keys = sorted(after_mapping.keys(), key=split_key)
                 after_mapping = {key: after_mapping[key] for key in sorted_keys}
 
                 # Print out Vallex4UMR, after the mapping has been resolved
-                for entry, info in after_mapping.items():
-                    print(f"\n* {entry.split('-')[0].upper()}\n"
-                          f" : id: {entry}\n"
-                          f" : synset id: {info['synset_id']}\n"
-                          f" : synset definition: {retrieve_synset_def(entry, after_mapping, definitions)}\n"
-                          f" : lemma URI: {retrieve_uri(entry, uris)}\n"
-                          f" + {info['roles']}\n"
-                          f" \t-POS: {'NOUN' if info['synset_id'].split('#')[0] == 'n' else 'VERB' if info['synset_id'].split('#')[0] == 'v' else info['synset_id'].split('#')[0]}\n"
-                          f" \t-Vallex1_id: {'; '.join(info['v1_frame'])}\n"
-                          f" \t-example: {'; '.join(info['example'])}\n"
-                          f" \t-LDT_ids: {'; '.join(info['LDT_id'])}\n", file=outfile)
+                process_entries(after_mapping, outfile)
 
 # TODOs:
-# take care of newly defined entries, the ones having a 'definition'.
 # transform to PropBank-like (checking the annotated data)
+# fix clashing info from warnings
+# decide what to do with POSSUM (probably, add it)
 
-# I probably want to populate also the rest of entries (althought not observed in the text) based on the mapping.
+# I probably want to populate also the rest of entries (although not observed in the text) based on the mapping.
 # they will contain less information, but for now it is somehow weird to see missing numbers
 # (e.g.: reperio-07 ... reperio-10)
