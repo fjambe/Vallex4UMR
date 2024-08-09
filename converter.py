@@ -58,6 +58,7 @@ def create_entries(infos, row):
     if mpd_entry not in infos:
         # Create the entry for Vallex4UMR, by first extracting the UMR key
         synset_def = retrieve_synset_def(row['synset_id'], definitions)
+        uri = retrieve_uri(mpd_entry, uris)
         infos[mpd_entry] = {
             # Lists are used in case it is necessary to add more than one id to a same entry
             'LDT_id': [row['id'] + f' (par.{par})'],
@@ -66,7 +67,7 @@ def create_entries(infos, row):
             'roles': row['roles'],
             'lemma': row['lemma'],
             'synset_id': row['synset_id'] if row['synset_id'] else 'NA',
-            'URI_lemma': retrieve_uri(mpd_entry, uris),
+            'URI_lemma': uri if uri else 'http://lila-erc.eu/data/id/lemma/'+row['URI lemma'],
             'definition': synset_def if synset_def != 'Unknown' else row['definition'],
             'POS': 'NOUN' if row['synset_id'].split('#')[0] == 'n' else 'VERB' if row['synset_id'].split('#')[0] == 'v' else row['synset_id'].split('#')[0],
             'notes': row['notes'],  # da valutare se tenere
@@ -102,12 +103,12 @@ def format_info(info):
     )
 
 
-def process_entries(after_mapping, outfile):
+def process_entries(after_mapping, output_file):
     """Process and print all entries in after_mapping."""
     for entry, info in after_mapping.items():
         header = f"\n* {entry.split('-')[0].upper()}\n"
         entry_info = format_info({**info, 'entry': entry})
-        print(header, entry_info, file=outfile)
+        print(header, entry_info, file=output_file)
 
 
 if __name__ == "__main__":
@@ -156,7 +157,6 @@ if __name__ == "__main__":
 # TODOs:
 # transform to PropBank-like (checking the annotated data)
 # fix clashing info from warnings
-# decide what to do with POSSUM (probably, add it)
 
 # I probably want to populate also the rest of entries (although not observed in the text) based on the mapping.
 # they will contain less information, but for now it is somehow weird to see missing numbers
