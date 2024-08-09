@@ -18,7 +18,7 @@ def split_key(key):
 
 
 def sanity_check(umr_entry):
-    # TODO: implement a sanity check (saw opus with no roles)
+    # TODO: implement a sanity check
     pass
 
 
@@ -79,12 +79,12 @@ def create_entries(infos, row):
         infos[mpd_entry]['example'].append(lines['example'])
         # TODO: lemma, synset_id, URI_lemma, definition will be the same.
         # TODO: decide what to do with notes.
-        # if lines['roles'] != infos[mapped_entry]['roles']:
-        #     warnings.warn(f"Mismatch in roles:{lines['roles']} VS. {infos[mapped_entry]['roles']}."
-        #                   f"Check the entry with LDT id {lines['id']}.")
-        # if lines['notes'] != infos[mapped_entry]['notes']:
-        #     warnings.warn(f"Mismatch in notes:{lines['notes']} VS. {infos[mapped_entry]['notes']}."
-        #                   f"Check the entry with LDT id {lines['id']}.")
+        if lines['roles'] != infos[mpd_entry]['roles']:
+            warnings.warn(f"Mismatch in roles:{lines['roles']} VS. {infos[mpd_entry]['roles']}."
+                          f"Check the entry with LDT id {lines['id']} and {infos[mpd_entry]['LDT_id']}.")
+        # if lines['notes'] != infos[mpd_entry]['notes']:
+        #     warnings.warn(f"Mismatch in notes:{lines['notes']} VS. {infos[mpd_entry]['notes']}."
+        #                   f"Check the entry with LDT id {lines['id']} and {infos[mpd_entry]['LDT_id']}.")
     return infos
 
 
@@ -109,6 +109,12 @@ def process_entries(after_mapping, output_file):
         header = f"\n* {entry.split('-')[0].upper()}\n"
         entry_info = format_info({**info, 'entry': entry})
         print(header, entry_info, file=output_file)
+
+
+def populate_other_entries():
+    # NO example, LDT_id, Vallex1_id, notes, gramm_info
+    # SI pos, uri, roles, synset def, syn id, id
+    return
 
 
 if __name__ == "__main__":
@@ -156,7 +162,7 @@ if __name__ == "__main__":
 
 # TODOs:
 # transform to PropBank-like (checking the annotated data)
-# fix clashing info from warnings
+# fix clashes info from warnings
 
 # I probably want to populate also the rest of entries (although not observed in the text) based on the mapping.
 # they will contain less information, but for now it is somehow weird to see missing numbers
