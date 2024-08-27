@@ -13,13 +13,20 @@ parser.add_argument("--mapping", default=False, help="Path to file mapping UMR a
 parser.add_argument("--vallex", default=False, help="Path to Vallex2 file.")
 
 
+pos = {
+    'a': 'ADJ',
+    'n': 'NOUN',
+    'v': 'VERB',
+    'r': 'ADV',
+}
+
 def split_key(key):
     alpha_part, num_part = key.rsplit('-', 1)
     return alpha_part, int(num_part)
 
 
-def sanity_check(umr_entry):
-    # TODO: implement a sanity check
+def control(umr_entry):
+    # TODO: verify that entries are well-formed.
     pass
 
 
@@ -61,25 +68,28 @@ def create_entries(infos, row):
         synset_def = retrieve_synset_def(row['synset_id'], definitions)
         uri = retrieve_uri(mpd_entry, uris)
         infos[mpd_entry] = {
-            # Lists are used in case it is necessary to add more than one id to a same entry
+            # Lists/sets are used in case it is necessary to add more than one id to a same entry
             'LDT_id': [row['id'] + f' (par.{par})'],
             'v1_frame': {row['V1 frame']},
             'example': {row['example']},
-            'roles': row['roles'],
+            'roles': roles_to_propbank([role.strip() for role in row['roles'].split(',')]),
             'lemma': row['lemma'],
             'synset_id': row['synset_id'] if row['synset_id'] else 'NA',
             'URI_lemma': uri if uri else 'http://lila-erc.eu/data/id/lemma/'+row['URI lemma'],
             'definition': synset_def if synset_def != 'Unknown' else row['definition'],
-            'POS': 'NOUN' if row['synset_id'].split('#')[0] == 'n' else 'VERB' if row['synset_id'].split('#')[0] == 'v' else row['synset_id'].split('#')[0],
-            'gramm_info': row['gramm_info']  # No conflicts, so no need to update it for duplicate entries.
+            'POS': pos.get(row['synset_id'].split('#')[0], row['synset_id'].split('#')[0]),
+            'gramm_info': row['gramm_info']  # conflicts are checked by the warning, so no need of list
         }
     else:
         infos[mpd_entry]['LDT_id'].append(lines['id'] + f' (par.{par})')
         infos[mpd_entry]['v1_frame'].add(lines['V1 frame'])
         infos[mpd_entry]['example'].add(lines['example'])
         # lemma, synset_id, URI_lemma, definition will be the same.
-        if lines['roles'] != infos[mpd_entry]['roles']:
+        if roles_to_propbank([role.strip() for role in lines['roles'].split(',')]) != infos[mpd_entry]['roles']:
             warnings.warn(f"Mismatch in roles:{lines['roles']} VS. {infos[mpd_entry]['roles']}."
+                          f"Check the entry with LDT id {lines['id']} and {infos[mpd_entry]['LDT_id']}.")
+        if lines['gramm_info'] != infos[mpd_entry]['gramm_info']:
+            warnings.warn(f"Mismatch in gramm_info:{lines['gramm_info']} VS. {infos[mpd_entry]['gramm_info']}."
                           f"Check the entry with LDT id {lines['id']} and {infos[mpd_entry]['LDT_id']}.")
     return infos
 
@@ -87,6 +97,7 @@ def create_entries(infos, row):
 def format_info(info, full=True):
     """Format the information for a single entry before printing it out."""
     # Basic information that is always included
+    gramm_info_line = f" \t-gramm_info: {info.get('gramm_info')}\n" if info.get('gramm_info') else ''
     formatted_info = (
         f": id: {info.get('entry', 'NA')}\n"
         f" : synset id: {info.get('synset_id', 'NA')}\n"
@@ -94,6 +105,7 @@ def format_info(info, full=True):
         f" : lemma URI: {info.get('URI_lemma', 'NA')}\n"
         f" + {info.get('roles', 'NA')}\n"
         f" \t-POS: {info.get('POS', 'NA')}\n"
+        f"{gramm_info_line}"
     )
 
     # Additional information only included if full is True
@@ -129,8 +141,8 @@ def populate_other_entries(mapping_file, vallex, infos):
                 'synset_id': row['id_synset'],
                 'URI_lemma': row['uri'],
                 'definition': retrieve_synset_def(row['id_synset'], definitions),
-                'POS': 'NOUN' if row['id_synset'].split('#')[0] == 'n' else 'VERB' if row['id_synset'].split('#')[0] == 'v' else row['id_synset'].split('#')[0],
-                'roles': stored_vallex.get(f"{row['uri']}+{row['id_synset']}")
+                'POS': pos.get(row['id_synset'].split('#')[0], row['id_synset'].split('#')[0]),
+                'roles': roles_to_propbank(stored_vallex.get(f"{row['uri']}+{row['id_synset']}").split(','))
             }
             for row in csv.DictReader(mapping, delimiter='\t')}
 
@@ -140,6 +152,22 @@ def populate_other_entries(mapping_file, vallex, infos):
                 infos[umr_id] = data
 
         return infos
+
+
+def roles_to_propbank(roles: list):
+    """Function to convert ACT/PAT/...-style roles to ARG0/ARG1/... (PropBank) ones.
+    Based on default mapping available at
+    https://github.com/ufal/UMR/blob/main/tecto2umr/dafault-functors-to-umrlabels.txt."""
+    conversion = {
+        'ACT': 'ARG0',
+        'PAT': 'ARG1',
+        'ADDR': 'ARG2',
+        'ORIG': 'ARG3',
+        'EFF': 'ARG4',
+        # e.g. for MAT, LOC, DIR1, DIR3, CPR, APP there is no default mapping available (non-core roles)
+    }
+    pb_roles = [f"{role} [{conversion.get(role, 'NA')}]" if role.strip() != '---' else role for role in roles]
+    return ", ".join(pb_roles)
 
 
 if __name__ == "__main__":
@@ -186,8 +214,3 @@ if __name__ == "__main__":
 
         # Print out Vallex4UMR, after the mapping has been resolved
         process_entries(after_mapping, outfile)
-
-
-# TODOs:
-# transform to PropBank-like (checking the annotated data)
-# controllare tutte le volte che c'è EVENT in notes e trasformare in verbal frame
