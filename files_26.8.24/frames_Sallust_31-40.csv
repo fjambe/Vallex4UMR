@@ -94,7 +94,7 @@ SlaT-3070-n16,facio,v#v-w76_MPf24_MP,facio-25,v#01752884,102758,"ACT, PAT",neque
 SlaT-3070-n19,sum,v#v-w2_MPf118_MP,have-mod-91,,,,,,,,
 SlaT-3070-n22,tueor,v#v-w653_MPf5_MP,tueor-06/tueor-07/tueor-14,v#01128193/v#01129337/v#02280132,129187,"ACT, PAT",tutae tranquillaeque res omnes,,NON-EVENT,,tutus safe
 3070a6,sum,v#v-w2_MPf111_MP,have-mod-91,,,,,,,,
-SlaT-3070-n27,egeo,v#v-w1109_MPf2_MP,egeo-01,v#01188725,100701,"ACT, PAT",miseri egentes,,,,
+SlaT-3070-n27,egeo,v#v-w1109_MPf2_MP,egeo-01,v#01188725,100701,"ACT, PAT",miseri egentes,,,PAT in ablative,
 SlaT-3070-n31,faenerator,v#v-w1296_MPf1_MP,faeneror-NEW-01,,102797,"ACT, PAT",,lend money at an exorbitant rate of interest,,,
 SlaT-3070-n35,sum,v#v-w2_MPf99_MP,have-mod-91,,,,,,,,
 SlaT-3070-n37,expers,v#v-w1297_MPf1_MP,,,,,,,NAs,,
@@ -162,7 +162,7 @@ SlaT-3084-n6,cognosco,v#v-w118_MPf21_MP,cognosco-06,v#00598954,94738,"ACT, PAT",
 SlaT-3084-n14,commendatio,v#v-w1304_MPf2_MP,commendo2-08,v#02356230,,"ACT, ADDR, PAT",egregia tua fides [...] fiduciam commendationi meae tribuit,,,,
 SlaT-3085-n1,statuo,v#v-w624_MPf3_MP,statuo-04,v#00697589,125614,"ACT, PAT",defensionem in novo consilio non statui parare,,,,
 SlaT-3085-n5,paro,v#v-w572_MPf10_MP,paro-06,v#00735571,116061,"ACT, PAT",defensionem in novo consilio non statui parare,,,,does not match with same frame elsewhere
-SlaT-3085-n6,defensio,v#v-w1049_MPf1_MP,defendo-05,v#00895304,,"ACT, PAT",defensionem in novo consilio non statui parare,,EVENT?,,
+SlaT-3085-n6,defensio,v#v-w1049_MPf1_MP,defendo-05,v#00895304,,"ACT, PAT",defensionem in novo consilio non statui parare,,EVENT,,
 SlaT-3085-n7,consilium,v#v-w316_MPf1_MP,decido-02,v#00697589,98060,"ACT, PAT",non fuit consilium socordia atque desidia bonum otium conterere,,,,consilium-08 as in consilium-esse > decido-02
 SlaT-3086-n1,decerno,v#v-w635_MPf9_MP,decerno-02,v#00697589,98047,"ACT, PAT",satisfactionem ex nulla conscientia de culpa proponere decrevi,,,,does not match with same frame elsewhere (is the other one correct?)
 SlaT-3086-n2,propono,v#v-w68_MPf29_MP,propono-06,v#01009240,119973,"ACT, PAT",satisfactionem ex nulla conscientia de culpa proponere decrevi,,,,
@@ -249,7 +249,7 @@ SlaT-3102-n28,habeo,v#v-w73_MPf19_MP,have-91,,,,,,,,
 SlaT-3103-n2,sum,v#v-w2_MPf242_MP,have-mod-91,,,,,,,,
 SlaT-3103-n9,causa,v#v-w258_MPf3_MP,,,,,,,NON-EVENT,,
 SlaT-3104-n1,confluo,v#v-w1318_MPf1_MP,confluo-01,v#02025009,95796,"ACT, DIR3",ii Romam sicut in sentinam confluxerant,,,,
-SlaT-3104-n6,praesto,v#v-w581_MPf9_MP,praesto2-06,v#02673965,119246,"ACT, DIFF, PAT",qui ubique probro atque petulantia maxume praestabant,,,PAT must be in dative,EFF in V2 is wrong (Eleonora said) - corrected into DIFF
+SlaT-3104-n6,praesto,v#v-w581_MPf9_MP,praesto2-06,v#02673965,119246,"ACT, DIFF, PAT",qui ubique probro atque petulantia maxume praestabant,,,PAT in dative,EFF in V2 is wrong (Eleonora said) - corrected into DIFF
 SlaT-3104-n15,amitto,v#v-w596_MPf3_MP,amitto-12,v#02287789,88724,"ACT, PAT",patrimoniis amissis,,,,
 SlaT-3104-n20,expello,v#v-w529_MPf6_MP,expello-13,v#02501738,102151,"ACT, DIR1, DIR3, PAT",omnes quos flagitium aut facinus domo expulerat,,,,
 3104a3,confluo,v#v-w1318_MPf3_MP,confluo-01,v#02025009,95796,"ACT, DIR3",ii Romam sicut in sentinam confluxerant,,,,
@@ -266,7 +266,7 @@ SlaT-3106-n10,excio,v#v-w1212_MPf1_MP,excio-NEW-07,v#01762528,101863,"ACT, PAT",
 SlaT-3107-n1,alo,v#v-w708_MPf4_MP,alo-09,v#01181166,88429,"ACT, PAT",alios omnis malum publicum alebat,,,,
 SlaT-3108-n4,miror,v#v-w1178_MPf2_MP,miror-02,v#00925735,112442,"ACT, PAT",quo minus mirandum est homines egentis [...] rei publicae iuxta ac sibi consulvisse,,,,
 SlaT-3108-n5,consulo,v#v-w630_MPf6_MP,consulo-NEW-14,v#02549847,96186,"ACT, PAT",quo minus mirandum est homines egentis [...] rei publicae iuxta ac sibi consulvisse,have care or look after,,,
-SlaT-3108-n7,egeo,v#v-w1109_MPf3_MP,egeo-01,v#01188725,100701,"ACT, PAT",quo minus mirandum est homines egentis [...] rei publicae iuxta ac sibi consulvisse,,,,
+SlaT-3108-n7,egeo,v#v-w1109_MPf3_MP,egeo-01,v#01188725,100701,"ACT, PAT",quo minus mirandum est homines egentis [...] rei publicae iuxta ac sibi consulvisse,,,PAT in ablative,
 SlaT-3109-n1,expecto,v#v-w584_MPf3_MP,exspecto-02,v#00720063,102335,"ACT, PAT",haud sane alio animo belli eventum expectabant,,,,
 SlaT-3109-n4,proscribo,v#v-w1319_MPf1_MP,proscribo-04,v#02480923,120052,"ACT, PAT",victoria Sullae parentes proscripti,,,,
 SlaT-3109-n9,eripio,v#v-w588_MPf11_MP,eripio-04,v#00571596,101432,"ACT, ORIG, PAT",bona erepta,,,,
