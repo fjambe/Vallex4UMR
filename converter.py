@@ -74,7 +74,7 @@ def create_entries(infos, row):
             'example': {row['example']},
             'roles': roles_to_propbank([role.strip() for role in row['roles'].split(',')]),
             'lemma': row['lemma'],
-            'synset_id': row['synset_id'] if row['synset_id'] else 'NA',
+            'synset_id': row['synset_id'].replace('#', '-') if row['synset_id'] else 'NA',
             'URI_lemma': uri if uri else 'http://lila-erc.eu/data/id/lemma/'+row['URI lemma'],
             'definition': synset_def if synset_def != 'Unknown' else row['definition'],
             'POS': pos.get(row['synset_id'].split('#')[0], row['synset_id'].split('#')[0]),
@@ -100,10 +100,10 @@ def format_info(info, full=True):
     gramm_info_line = f" \t-gramm_info: {info.get('gramm_info')}\n" if info.get('gramm_info') else ''
     formatted_info = (
         f": id: {info.get('entry', 'NA')}\n"
-        f" : synset id: {info.get('synset_id', 'NA')}\n"
-        f" : synset definition: {info.get('definition', 'NA')}\n"
-        f" : lemma URI: {info.get('URI_lemma', 'NA')}\n"
         f" + {info.get('roles', 'NA')}\n"
+        f" \t-synset_id: {info.get('synset_id', 'NA')}\n"
+        f" \t-synset_definition: {info.get('definition', 'NA')}\n"
+        f" \t-lemma_URI: {info.get('URI_lemma', 'NA')}\n"
         f" \t-POS: {info.get('POS', 'NA')}\n"
         f"{gramm_info_line}"
     )
@@ -122,7 +122,7 @@ def format_info(info, full=True):
 def process_entries(after_mapping, output_file):
     """Process and print all entries in after_mapping."""
     for entry, info in after_mapping.items():
-        header = f"\n* {entry.split('-')[0].upper()}\n"
+        header = f"* {entry.split('-')[0].upper()}\n"
         entry_info = format_info({**info, 'entry': entry}, full='LDT_id' in info and bool(info.get('LDT_id')))
         print(header, entry_info, file=output_file)
 
@@ -138,7 +138,7 @@ def populate_other_entries(mapping_file, vallex, infos):
         storage = {
             row['UMR_id']: {
                 'lemma': row['lemma'],
-                'synset_id': row['id_synset'],
+                'synset_id': row['id_synset'].replace('#', '-'),
                 'URI_lemma': row['uri'],
                 'definition': retrieve_synset_def(row['id_synset'], definitions),
                 'POS': pos.get(row['id_synset'].split('#')[0], row['id_synset'].split('#')[0]),
