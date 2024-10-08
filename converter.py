@@ -119,9 +119,26 @@ def format_info(info, full=True):
     return formatted_info
 
 
-def process_entries(after_mapping, output_file):
-    """Process and print all entries in after_mapping."""
-    for entry, info in after_mapping.items():
+def remove_duplicates(infos):
+    """
+    Remove single entries that are part of merged ones, to avoid repetition.
+    E.g., cupiditas-01 and cupiditas-02, as they have been merged as cupiditas-01/cupiditas-02.
+    """
+    # Reorder infos so that merged entries occur first.
+    infos = dict(sorted(infos.items(), key=lambda item: ('/' not in item[0], item[0])))
+
+    processed = set()
+    for entry, info in infos.items():
+            if '/' in entry:
+                for sub_entry in entry.split('/'):
+                    processed.add(sub_entry)
+
+    return {key: infos[key] for key in sorted(infos) if key not in processed}
+
+
+def process_entries(infos, output_file):
+    """Process and print all entries in filtered_infos."""
+    for entry, info in infos.items():
         header = f"* {entry.split('-')[0].upper()}\n"
         entry_info = format_info({**info, 'entry': entry}, full='LDT_id' in info and bool(info.get('LDT_id')))
         print(header, entry_info, file=output_file)
@@ -131,7 +148,7 @@ def populate_other_entries(mapping_file, vallex, infos):
     """
     Function to create entries for which no occurrences in the text have been found.
     Based on the mapping between UMR and Vallex2.
-    Roles (e.g. ACT, PAT) are taken from Vallex2.z
+    Roles (e.g. ACT, PAT) are taken from Vallex2.
     """
     with open(mapping_file, mode='r') as mapping, open(vallex, mode='r') as val:
         stored_vallex = {f"{row['uri']}+{row['id_synset']}": row['arguments_set'] for row in csv.DictReader(val, delimiter='\t')}
@@ -208,9 +225,6 @@ if __name__ == "__main__":
 
         after_mapping = populate_other_entries(args.mapping, args.vallex, after_mapping)
 
-        # Sort the mapped dictionary alphanumerically
-        sorted_keys = sorted(after_mapping.keys(), key=split_key)
-        after_mapping = {key: after_mapping[key] for key in sorted_keys}
-
         # Print out Vallex4UMR, after the mapping has been resolved
-        process_entries(after_mapping, outfile)
+        filtered_after_mapping = remove_duplicates(after_mapping)
+        process_entries(filtered_after_mapping, outfile)
