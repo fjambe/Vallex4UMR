@@ -148,7 +148,7 @@ SlaT-2905-n6,fluo,v#v-w741_MPf3_MP,fluo-17,v#02066510,103519,ACT,eorum animi mol
 SlaT-2906-n3,flagro,v#v-w1203_MPf1_MP,flagro-NEW-12,,103388,ACT,"ut cuiusque studium ex aetate flagrabat, aliis scorta praebere, aliis canis atque equos mercari",burn (of passion or desire),,,,
 SlaT-2906-n4,studium,v#v-w59_MPf12_MP,studium-04,n#05670343,125889,"ACT, PAT","ut cuiusque studium ex aetate flagrabat, aliis scorta praebere, aliis canis atque equos mercari",,NON-EVENT,,,
 SlaT-2906-n8,praebeo,v#v-w203_MPf3_MP,praebeo-05,v#01629000,118687,"ACT, ADDR, PAT","ut cuiusque studium ex aetate flagrabat, aliis scorta praebere, aliis canis atque equos mercari",,,,,
-SlaT-2906-n11,mercor,v#v-w1204_MPf1_MP,mercor-01,v#02207206,112102,ACT +PAT,"ut cuiusque studium ex aetate flagrabat, aliis scorta praebere, aliis canis atque equos mercari",,,,,
+SlaT-2906-n11,mercor,v#v-w1204_MPf1_MP,mercor-01,v#02207206,112102,"ACT, PAT","ut cuiusque studium ex aetate flagrabat, aliis scorta praebere, aliis canis atque equos mercari",,,,,
 SlaT-2907-n1,parco,v#v-w621_MPf2_MP,parco-02,v#01196037,116001,"ACT, PAT","neque sumptui neque modestiae suae parcere, dum illos obnoxios fidosque sibi faceret.",,,,,
 SlaT-2907-n5,sumptus,v#v-w1196_MPf2_MP,,,,,,,NON-EVENT,,,
 SlaT-2907-n10,facio,v#v-w76_MPf27_MP,facio-05,v#00120675,102758,"ACT, EFF, PAT","neque sumptui neque modestiae suae parcere, dum illos obnoxios fidosque sibi faceret.",,,,,
