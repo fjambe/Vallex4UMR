@@ -55,7 +55,7 @@ def store_uris_from_mapping(mapping_file):
 def retrieve_uri(umr_entry, stored_uris):
     """Function to retrieve the URI given the UMR id."""
     # Handle merged entries: get the first part before the first '/'
-    base_entry = umr_entry.split('/')[0]  # to handle merged entries, that share the URI anyway
+    base_entry = umr_entry.split('/')[0]
     if 'NEW' in base_entry:
         base_entry = base_entry.split('-')[0] + "-01"  # the URI is shared for the same lemma, so any word sense is fine
     return stored_uris.get(base_entry)
@@ -63,6 +63,7 @@ def retrieve_uri(umr_entry, stored_uris):
 
 def create_entries(infos, row):
     mpd_entry = row['UMR']
+    roles = list(role.strip() for role in row['roles'].split(','))
     if mpd_entry not in infos:
         # Create the entry for Vallex4UMR, by first extracting the UMR key
         synset_def = retrieve_synset_def(row['synset_id'], definitions)
@@ -172,18 +173,30 @@ def populate_other_entries(mapping_file, vallex, infos):
 
 
 def roles_to_propbank(roles: list):
-    """Function to convert ACT/PAT/...-style roles to ARG0/ARG1/... (PropBank) ones.
-    Based on default mapping available at
-    https://github.com/ufal/UMR/blob/main/tecto2umr/dafault-functors-to-umrlabels.txt."""
-    conversion = {
-        'ACT': 'ARG0',
-        'PAT': 'ARG1',
-        'ADDR': 'ARG2',
-        'ORIG': 'ARG3',
-        'EFF': 'ARG4',
-        # e.g. for MAT, LOC, DIR1, DIR3, CPR, APP there is no default mapping available (non-core roles)
-    }
-    pb_roles = [f"{role} [{conversion.get(role, 'NA')}]" if role.strip() != '---' else role for role in roles]
+    """
+    Function to convert ACT/PAT/... functors to ARG0/ARG1/... PropBank roles.
+    Based on a custom hierarchy (cf. default mapping available at
+    https://github.com/ufal/UMR/blob/main/tecto2umr/dafault-functors-to-umrlabels.txt).
+    Only ACT and PAT are fixed (ARG0 and ARG1, respectively). Arguments follow, then adjuncts.
+    """
+    functor_hierarchy = [
+        'ACT', 'PAT', 'ADDR', 'EFF', 'ORIG', 'BEN', 'DIFF', 'REG', 'MANN', 'DIR1', 'DIR3', 'DIR2', 'LOC',
+        'TOWH', 'TFHL', 'TWHEN', 'MEANS', 'EXT', 'AIM', 'MAT', 'INTT', 'CAUS', 'CPR', 'APP', 'ACMP'
+    ]
+
+    sorted_functors = sorted(f for f in roles if f.strip() not in ['---', ''])
+    pb_roles = []
+    # Assign ARG0 to ACT and ARG1 to PAT if present, and track current_arg
+    current_arg = 0
+    for functor in ['ACT', 'PAT']:
+        if functor in sorted_functors:
+            pb_roles.append(f"{functor} [ARG{current_arg}]")
+            current_arg += 1
+            sorted_functors.remove(functor)
+
+    # Assign remaining functors to ARG starting from current_arg
+    pb_roles += [f"{functor} [ARG{current_arg + idx}]" for idx, functor in enumerate(sorted(sorted_functors, key=lambda f: functor_hierarchy.index(f)))]
+
     return ", ".join(pb_roles)
 
 
