@@ -71,11 +71,11 @@ def create_entries(infos, row):
         infos[mpd_entry] = {
             # Lists/sets are used in case it is necessary to add more than one id to a same entry
             'LDT_id': [row['id'] + f' (par.{par})'],
-            'v1_frame': {row['V1 frame']},
+            'v1_frame': {row['V1 frame'].replace('#', '_')},
             'example': {row['example']},
             'roles': roles_to_propbank([role.strip() for role in row['roles'].split(',')]),
             'lemma': row['lemma'],
-            'synset_id': row['synset_id'].replace('#', '-') if row['synset_id'] else 'NA',
+            'synset_id': row['synset_id'].replace('#', '_') if row['synset_id'] else 'NA',
             'URI_lemma': uri if uri else 'http://lila-erc.eu/data/id/lemma/'+row['URI lemma'],
             'definition': synset_def if synset_def != 'Unknown' else row['definition'],
             'POS': pos.get(row['synset_id'].split('#')[0], row['synset_id'].split('#')[0]),
@@ -83,7 +83,7 @@ def create_entries(infos, row):
         }
     else:
         infos[mpd_entry]['LDT_id'].append(lines['id'] + f' (par.{par})')
-        infos[mpd_entry]['v1_frame'].add(lines['V1 frame'])
+        infos[mpd_entry]['v1_frame'].add(lines['V1 frame'].replace('#', '_'))
         infos[mpd_entry]['example'].add(lines['example'])
         # lemma, synset_id, URI_lemma, definition will be the same.
         if roles_to_propbank([role.strip() for role in lines['roles'].split(',')]) != infos[mpd_entry]['roles']:
@@ -156,7 +156,7 @@ def populate_other_entries(mapping_file, vallex, infos):
         storage = {
             row['UMR_id']: {
                 'lemma': row['lemma'],
-                'synset_id': row['id_synset'].replace('#', '-'),
+                'synset_id': row['id_synset'].replace('#', '_'),
                 'URI_lemma': row['uri'],
                 'definition': retrieve_synset_def(row['id_synset'], definitions),
                 'POS': pos.get(row['id_synset'].split('#')[0], row['id_synset'].split('#')[0]),
