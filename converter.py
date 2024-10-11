@@ -63,7 +63,6 @@ def retrieve_uri(umr_entry, stored_uris):
 
 def create_entries(infos, row):
     mpd_entry = row['UMR']
-    roles = list(role.strip() for role in row['roles'].split(','))
     if mpd_entry not in infos:
         # Create the entry for Vallex4UMR, by first extracting the UMR key
         synset_def = retrieve_synset_def(row['synset_id'], definitions)
@@ -78,7 +77,7 @@ def create_entries(infos, row):
             'synset_id': row['synset_id'].replace('#', '_') if row['synset_id'] else 'NA',
             'URI_lemma': uri if uri else 'http://lila-erc.eu/data/id/lemma/'+row['URI lemma'],
             'definition': synset_def if synset_def != 'Unknown' else row['definition'],
-            'POS': pos.get(row['synset_id'].split('#')[0], row['synset_id'].split('#')[0]),
+            'POS': pos.get(row['synset_id'].split('#')[0], 'NA'),
             'gramm_info': row['gramm_info']  # conflicts are checked by the warning, so no need of list
         }
     else:
@@ -95,8 +94,15 @@ def create_entries(infos, row):
     return infos
 
 
-def format_info(info, full=True):
-    """Format the information for a single entry before printing it out."""
+def format_info(info, all_entries_info, full=True):
+    """Format the information for a *single entry* before printing it out."""
+
+    backup_key = info['entry'].split('-')[0] + '-01'  # to retrieve POS for entries with no synset
+    if backup_key in all_entries_info:
+        backup_key = backup_key
+    else:
+        backup_key = None
+
     # Basic information that is always included
     gramm_info_line = f" \t-gramm_info: {info.get('gramm_info')}\n" if info.get('gramm_info') else ''
     formatted_info = (
@@ -105,7 +111,7 @@ def format_info(info, full=True):
         f" \t-synset_id: {info.get('synset_id', 'NA')}\n"
         f" \t-synset_definition: {info.get('definition', 'NA')}\n"
         f" \t-lemma_URI: {info.get('URI_lemma', 'NA')}\n"
-        f" \t-POS: {info.get('POS', 'NA')}\n"
+        f" \t-POS: {info.get('POS') if info.get('POS') != 'NA' else (all_entries_info[backup_key].get('POS', 'NA') if backup_key is not None else 'NA')}\n"
         f"{gramm_info_line}"
     )
 
@@ -141,7 +147,7 @@ def process_entries(infos, output_file):
     """Process and print all entries in filtered_infos."""
     for entry, info in infos.items():
         header = f"* {entry.split('-')[0].upper()}\n"
-        entry_info = format_info({**info, 'entry': entry}, full='LDT_id' in info and bool(info.get('LDT_id')))
+        entry_info = format_info({**info, 'entry': entry}, infos, full='LDT_id' in info and bool(info.get('LDT_id')))
         print(header, entry_info, file=output_file)
 
 
@@ -159,7 +165,7 @@ def populate_other_entries(mapping_file, vallex, infos):
                 'synset_id': row['id_synset'].replace('#', '_'),
                 'URI_lemma': row['uri'],
                 'definition': retrieve_synset_def(row['id_synset'], definitions),
-                'POS': pos.get(row['id_synset'].split('#')[0], row['id_synset'].split('#')[0]),
+                'POS': pos.get(row['id_synset'].split('#')[0], 'NA'),
                 'roles': roles_to_propbank(stored_vallex.get(f"{row['uri']}+{row['id_synset']}").split(','))
             }
             for row in csv.DictReader(mapping, delimiter='\t')}
