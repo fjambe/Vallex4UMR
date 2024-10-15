@@ -190,18 +190,28 @@ def roles_to_propbank(roles: list):
         'TOWH', 'TFHL', 'TWHEN', 'MEANS', 'EXT', 'AIM', 'MAT', 'INTT', 'CAUS', 'CPR', 'APP', 'ACMP'
     ]
 
-    sorted_functors = sorted(f for f in roles if f.strip() not in ['---', ''])
+    # sorted_functors = sorted(f for f in roles if f.strip() not in ['---', ''])
+    functors = [f for f in roles if f.strip() not in ['---', '']]
     pb_roles = []
-    # Assign ARG0 to ACT and ARG1 to PAT if present, and track current_arg
-    current_arg = 0
-    for functor in ['ACT', 'PAT']:
-        if functor in sorted_functors:
-            pb_roles.append(f"{functor} [ARG{current_arg}]")
-            current_arg += 1
-            sorted_functors.remove(functor)
 
-    # Assign remaining functors to ARG starting from current_arg
-    pb_roles += [f"{functor} [ARG{current_arg + idx}]" for idx, functor in enumerate(sorted(sorted_functors, key=lambda f: functor_hierarchy.index(f)))]
+    current_arg = 1  # ARG0 will be only for ACT anyway
+
+    # Always assign ACT to ARG0, PAT to ARG1, and ADDR to ARG2 (?) if they are present
+    if 'ACT' in functors:
+        pb_roles.append("ACT [ARG0]")
+        functors.remove('ACT')
+    if 'PAT' in functors:
+        pb_roles.append("PAT [ARG1]")
+        functors.remove('PAT')
+        current_arg += 1
+    if 'ADDR' in functors:
+        pb_roles.append("ADDR [ARG2]")
+        functors.remove('ADDR')
+        current_arg += 1
+
+    # Sort the remaining functors based on their position in the hierarchy
+    sorted_functors = sorted(functors, key=lambda f: functor_hierarchy.index(f))
+    pb_roles += [f"{functor} [ARG{idx + current_arg}]" for idx, functor in enumerate(sorted_functors)]
 
     return ", ".join(pb_roles)
 
