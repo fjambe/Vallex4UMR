@@ -8,9 +8,9 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--wordnet", default=False, help="Path to WordNet file.")
-parser.add_argument("--mapping", default=False, help="Path to file mapping UMR and Vallex2 entries.")
-parser.add_argument("--vallex", default=False, help="Path to Vallex2 file.")
+parser.add_argument("--wordnet", required=True, help="Path to WordNet file.")
+parser.add_argument("--mapping", required=True, help="Path to file mapping UMR and Vallex2 entries.")
+parser.add_argument("--vallex", required=True, help="Path to Vallex2 file.")
 
 
 pos = {

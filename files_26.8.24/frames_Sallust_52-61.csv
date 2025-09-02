@@ -400,7 +400,7 @@ SlaT-3409-n32,confligo,v#v-w1041_MPf3_MP,confligo-05,v#01092366,95791,"ACMP, ACT
 SlaT-3410-n1,habeo,v#v-w73_MPf15_MP,habeo-NEW-24,v#00989602,105044,"ACT, PAT",orationem huiusce modi habuit,"deliver (a speech, oration, or idea)",,,"does not correspond to other habeo-NEW-24. yet, it never does",,
 SlaT-3410-n3,advoco,v#v-w1345_MPf2_MP,aduoco-05,v#00793037,87719,"ACT, PAT",contione advocata,,,,,,
 Par. 58,,,,,,,,,,,,,
-SlaT-3411-n1,habeo,v#v-w73_MPf70_MP,habeo-NEW-25,v#02681795,105044,"ACT, PAT, EFF",coepere se quisque magis extollere magisque ingenium in promptu habere,"keep in a certain state, position, or activity; e.g.,",,,,,
+SlaT-3411-n1,habeo,v#v-w73_MPf70_MP,habeo-compertum-NEW-01,,,"ACT, PAT","compertum ego habeo, milites, verba virtutem non addere","keep in a certain state, position, or activity; e.g.,",,,,,
 SlaT-3411-n2,comperio,v#v-w816_MPf2_MP,comperio-NEW-09,v#00721302,95309,"ACT, PAT",ex aliis rebus magis quam quod cuiquam id compertum foret haec fama valebat,learn or discover with certainty,,,,,
 SlaT-3411-n6,addo,v#v-w443_MPf20_MP,addo-01,v#00153263,87401,"ACT, ADDR, PAT",verba virtutem non addere,,,,,,
 3411a3,fio,v#v-w565_MPf19_MP,fio-01,v#00149583,103328,"ACT, PAT",neque fortem ex timido exercitum oratione imperatoris fieri,,,,"I thought EFF was necessary (in V1 there's ACT, PAT, EFF as obl), but compare with Czech Vallex, both PDT and non-PDT: stá(va)t se has ACT, PAT; example: stal se z chlapce mužem; s. se majitelem krásné ženy. || different than other fio-01",,
