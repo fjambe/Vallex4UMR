@@ -1,3 +1,5 @@
+from asyncio import current_task
+
 import pandas as pd
 from collections import defaultdict
 import re
@@ -27,7 +29,9 @@ def custom_sort_key(pr_id):
 
 
 def format_info(dataframe, predicate, frame_dict, output):
-    exs = dataframe.loc[df["frame"].isin(frame_dict[predicate]['frames']), "example"].tolist()
+    exs_csv = dataframe.loc[df["frame"].isin(frame_dict[predicate]['frames']), "example"].tolist()
+    exs_vallex = output[predicate].get("examples", [])
+    exs = list(dict.fromkeys(exs_vallex + exs_csv))
     pos_value = output[predicate].get("POS")  # try to fetch stored POS
     if not pos_value:
         pos_value = "VERB" if not predicate.endswith("-91") else ""  # default rule
