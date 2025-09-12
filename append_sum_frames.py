@@ -1,5 +1,3 @@
-from asyncio import current_task
-
 import pandas as pd
 from collections import defaultdict
 import re
@@ -150,32 +148,36 @@ if __name__ == "__main__":
 
         if row['UMR concept'].startswith('(') or row['UMR concept'].startswith('if'):
             # separate document
-            pass
+            continue
 
-        else:
-            # --- Extract roles from functors and UMR roles ---
-            functors_list = [f.strip().split("(")[0] for f in row["functors"].split(",")] # Remove parenthetical info from each functor
-            umr_roles_list = [r.strip() for r in row["UMR roles"].split("|")]
-            roles_string = ", ".join(f"{f} [{r}]" for f, r in zip(functors_list, umr_roles_list))
+        # --- Extract roles from functors and UMR roles ---
+        functors_list = [f.strip().split("(")[0] for f in row["functors"].split(",")]
+        umr_roles_list = [r.strip() for r in row["UMR roles"].split("|")]
+        roles_string = ", ".join(f"{f} [{r}]" for f, r in zip(functors_list, umr_roles_list))
+
+        # If new predicate → create entry
+        if predicate_id not in existing_entries:
+            existing_entries[predicate_id] = {
+                "lemma": row["lemma"],
+                "frames": [row["frame"]],
+                "examples": [row["example"]],
+                "roles": roles_string,
+                "pos": None,
+                "synset_id": None,
+                "synset_definition": str(row.get("meaning") or "").strip(),
+                "lemma_URI": None,
+                "LDT_ids": []
+            }
 
             predicate_info[predicate_id]['roles'].add(roles_string)
             predicate_info[predicate_id]['frames'].append(row['frame'])
 
-            if predicate_id not in existing_entries:
-                existing_entries[predicate_id] = {
-                    "lemma": row["lemma"],
-                    "frames": [row["frame"]],
-                    "examples": [row["example"]],
-                    "roles": roles_string,
-                    "pos": None,
-                    "synset_id": None,
-                    "synset_definition": row["meaning"],
-                    "lemma_URI": None,
-                    "LDT_ids": []
-                }
+        else:
+            # Compare roles before merging
+            existing_roles = existing_entries[predicate_id].get("roles")
 
-            else:
-                # Merge information
+            if existing_roles == roles_string:
+                # Safe merge
                 frames = existing_entries[predicate_id].setdefault("frames", [])
                 if row['frame'] not in frames:
                     frames.append(row['frame'])
@@ -184,12 +186,31 @@ if __name__ == "__main__":
                 if row['example'] not in examples_list:
                     examples_list.append(row['example'])
 
-                if "roles" not in existing_entries[predicate_id] or not existing_entries[predicate_id]["roles"]:
-                    existing_entries[predicate_id]["roles"] = roles_string
+                predicate_info[predicate_id]['roles'].add(roles_string)
+                predicate_info[predicate_id]['frames'].append(row['frame'])
 
                 if "NEW" in predicate_id:
                     if not existing_entries[predicate_id].get("synset_definition"):
-                        existing_entries[predicate_id]["synset_definition"] = row.get("meaning", "").strip()
+                        existing_entries[predicate_id]["synset_definition"] = str(row.get("meaning") or "").strip()
+
+            else:
+                # Conflict: create a new entry
+                conflict_id = f"{predicate_id}-conflict"
+                syn_def = str(row.get("meaning") or "").strip()
+                existing_entries[conflict_id] = {
+                    "lemma": row["lemma"],
+                    "frames": [row["frame"]],
+                    "examples": [row["example"]],
+                    "roles": roles_string,
+                    "pos": "VERB" if not predicate_id.endswith("-91") else "",
+                    "synset_id": None,
+                    "synset_definition": syn_def,
+                    "lemma_URI": None,
+                    "LDT_ids": []
+                }
+
+                predicate_info[conflict_id]['roles'].add(roles_string)
+                predicate_info[conflict_id]['frames'].append(row['frame'])
 
     # Sort before printing everything at the end.
     with open("Vallex4UMR_updated.txt", "w", encoding="utf-8") as output_file:
