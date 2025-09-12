@@ -146,10 +146,6 @@ if __name__ == "__main__":
     for _, row in df.iterrows():
         predicate_id = row["UMR concept"]
 
-        if row['UMR concept'].startswith('(') or row['UMR concept'].startswith('if'):
-            # separate document
-            continue
-
         # --- Extract roles from functors and UMR roles ---
         functors_list = [f.strip().split("(")[0] for f in row["functors"].split(",")]
         umr_roles_list = [r.strip() for r in row["UMR roles"].split("|")]
@@ -213,7 +209,7 @@ if __name__ == "__main__":
                 predicate_info[conflict_id]['frames'].append(row['frame'])
 
     # Sort before printing everything at the end.
-    with open("Vallex4UMR_updated.txt", "w", encoding="utf-8") as output_file:
+    with open("Vallex4UMR.txt", "w", encoding="utf-8") as output_file:
         for predicate_id in sorted(existing_entries.keys(), key=custom_sort_key):
             entry_text = format_info(df, predicate_id, predicate_info, existing_entries)
             output_file.write(entry_text)
