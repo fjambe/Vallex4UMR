@@ -9,7 +9,7 @@ v-w2_MPf104_MP,reviewed,sum,"""[...] sapientiae studium est perfectius, sublimiu
 v-w73_MPf4_MP,substituted_v-w73_MPf18_MP,habeo,"""[...] ex quo ratione (vertitas) haberi potest [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf105_MP,reviewed,sum,"""[...] in moventibus et motis non sit procedere in infinitum""","ACT(obl), LOC(non)",1,"(!delete,ACT)","!root,!modal-strength(neutral-affirmative)|place",,"delete the node, change modal-strength to neutral for the ACT",
 v-w73_MPf5_MP,substituted_v-w73_MPf20_MP,habeo,"""[...] omni cognitione quam de substantiis inferioribus habemus""","ACT(obl), PAT(obl)",,,,,,
-v-w2_MPf106_MP,reviewed,sum,"""[...] propositum nostra intentionis est veritatem [...] manifestare [...]""","ACT(obl), PAT(obl)",10,identity-91,ARG1|ARG2,,,
+v-w2_MPf106_MP,reviewed,sum,"""[...] propositum nostra intentionis est veritatem [...] manifestare [...]""","ACT(obl), PAT(obl)",10,have-role-91,ARG1|ARG2,,,
 v-w73_MPf6_MP,substituted_v-w73_MPf19_MP,habeo,"""[...] libri penes nos in verenartione habentur [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf107_MP,reviewed,sum,"""[...] difficile est procedere [...]""","ACT(obl), PAT(obl)",57,have-mod-91,ARG1|ARG2,,,
 v-w73_MPf7_MP,substituted_v-w73_MPf21_MP,habeo,"""[...] haec tamen quae ratio naturaliter indita habet [...]""","ACT(obl), PAT(obl), EFF(obl)",,,,,,
@@ -25,7 +25,7 @@ v-w2_MPf113_MP,reviewed,sum,"""quaedam vero sunt ad quae etiam ratio naturalis p
 v-w73_MPf12_MP,substituted_v-w73_MPf26_MP,habeo,"""[...] addiscentem vero necesse est non habere""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf114_MP,reviewed,sum,"""[...] sicut est deum esse, deum esse unum, et alia huiusmodi""",ACT(obl),1,exist-91,ARG1,,,
 v-w73_MPf13_MP,substituted_v-w73_MPf27_MP,habeo,"""[...] habetur propositum""","ACT(obl), PAT(obl)",,,,,,
-v-w2_MPf115_MP,reviewed,sum,"""[...] sicut est deum esse [...]""",ACT(obl),188,"if(no-echild.functor:BEN)(t_lemma(exist-91)) else (t_lemma(pred-possession-91), if(echild:BEN)(ARG2))",ARG1,,,"hard to map. cases of have-pred-possession-91 (dative of possession), at least one have-mod-91 (conscius esset). could be an example for the paper. also in the instructions."
+v-w2_MPf115_MP,reviewed,sum,"""[...] sicut est deum esse [...]""",ACT(obl),188,"if(no-echild.functor:BEN)(!t_lemma(exist-91)) else (!t_lemma(pred-possession-91), if(echild.functor:BEN)(ARG2)else(!error))",ARG1,,,"hard to map. cases of have-pred-possession-91 (dative of possession), at least one have-mod-91 (conscius esset). could be an example for the paper. also in the instructions."
 v-w73_MPf28_MP,obsolete,habeo,"""habet enim res unaquaeque in seipsa esse proprium [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w73_MPf29_MP,obsolete,habeo,"""[...] quod semper fuit, habet virtutem semper essendi""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf116_MP,reviewed,sum,"""[...] principium est quod quid est""","ACT(obl), PAT(obl)",8,identity-91,ARG1|ARG2,,,
@@ -54,7 +54,7 @@ v-w73_MPf49_MP,substituted_v-w73_MPf53_MP,habeo,"(Sallust) ""ita eorum qui fecer
 v-w2_MPf132_MP,reviewed,sum,"""utile tamen est ut [...] se mens humana exerceat [...]""","ACT(obl), PAT(obl)",2,have-mod-91,ARG1|ARG2,,,
 v-w73_MPf50_MP,substituted_v-w73_MPf54_MP,habeo,"(Sallust) ""quarum rerum ego maxuma documenta haec habeo, quod [...] vindicatum est [...]""","ACT(obl), PAT(obl), EFF(obl)",,,,,,
 v-w2_MPf133_MP,reviewed,sum,"""singularis vero modus [...] est ex auctoritate scripturae divinitus confirmata miraculis""","ACT(obl), ORIG(obl)",4,have-source-91,ARG1|ARG2,,,
-v-w2_MPf134_MP,reviewed,sum,"""[...] deum esse per se notum est [...]""","ACT(obl), PAT(obl)",16,"(!delete,PAT)","if(PAT:nosco)(ARG1) elif(PAT:contingo)(ARG0) else (!error)|if(PAT:nosco)(!root,t_lemma:nosco-04) elif(PAT:contingo)(!root,t_lemma:contingo-05) else (!error)",,"the PAT node is discarded, the ACT becomes PAT (ARG1), and children of the initial PAT, if any, are attached to the predicate as :manner",only notus est
+v-w2_MPf134_MP,reviewed,sum,"""[...] deum esse per se notum est [...]""","ACT(obl), PAT(obl)",16,"(!delete,PAT)","if(echild:functor:PAT, t_lemma:nosco)(ARG1) else if (echild.functor:PAT, t_lemma:contingo)(ARG0) else (!error)|if(echild.functor:PAT, t_lemma:nosco)(!root,!t_lemma(nosco-04)) else if (echild.functor:PAT, t_lemma:contingo)(!root,!t_lemma(contingo-05)) else (!error)",,"the PAT node is discarded, the ACT becomes PAT (ARG1), and children of the initial PAT, if any, are attached to the predicate as :manner",only notus est
 v-w73_MPf57_MP,obsolete,habeo,"""[...] multos mortalis [...] aliud in lingua promptum habere [...]""","ACT(obl), PAT(obl), EFF(obl)",,,,,,
 v-w2_MPf135_MP,reviewed,sum,"""huiusmodi autem est hoc [...]""","ACT(obl), PAT(obl)",2,have-mod-91,ARG1|ARG2,,,
 v-w2_MPf136_MP,reviewed,sum,"""[...] deum esse per se notum est, quasi es ipsa significatione nominis manifestum""","ACT(obl), PAT(obl)",2,have-mod-91,ARG1|ARG2,,,
@@ -62,7 +62,7 @@ v-w73_MPf60_MP,obsolete,habeo,"""[...] oratione habita [...]""","ACT(obl), PAT(o
 v-w2_MPf137_MP,reviewed,sum,"""quod est contra rationem nominis""","ACT(obl), LOC(non)",1,aduersor-01,ARG0|ARG2,,,
 v-w73_MPf62_MP,obsolete,habeo,"""igitur comitiis habitis [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf139_MP,reviewed,sum,"""deus autem huiusmodi est""","ACT(obl), PAT(obl)",2,have-mod-91,ARG1|ARG2,,,
-v-w2_MPf142_MP,reviewed,sum,"""et ideo demonstrandum est quod necessarium sit""","ACT(obl), PAT(obl)",3,nosco-04,"ARG1|if(PAT:nosco)(!root,t_lemma:nosco-04) else (!root,t_lemma:have-mod-91)",,"the PAT node is discarded, the ACT becomes PAT (ARG1), and children of the initial PAT, if any, are attached to the predicate as :manner",only notus est
+v-w2_MPf142_MP,reviewed,sum,"""et ideo demonstrandum est quod necessarium sit""","ACT(obl), PAT(obl)",3,nosco-04,"ARG1|if(echild.functor:PAT, t_lemma:nosco)(!root,!t_lemma(nosco-04)) else (!root,!t_lemma(have-mod-91))",,"the PAT node is discarded, the ACT becomes PAT (ARG1), and children of the initial PAT, if any, are attached to the predicate as :manner",only notus est
 v-w2_MPf143_MP,reviewed,sum,"""[...] non erit aliqua scientia supra naturalem [...]""","ACT(obl), LOC(non)",3,have-place-91,ARG1|ARG2,,,
 v-w2_MPf145_MP,reviewed,sum,"""[...] quod nobis quale sit ignotum est [...]""","ACT(obl), PAT(obl)",14,have-mod-91,ARG1|ARG2,,,
 v-w2_MPf146_MP,reviewed,sum,"""(In hac autem probatione sunt) scilicet, quod omne motum movetur ab alio""","ACT(obl), LOC(non)",2,include-91,ARG1|ARG2,,,
@@ -93,7 +93,7 @@ v-w2_MPf36_MP,obsolete,sum,"""sic enim est dispositio rerum in veritate [...]"""
 v-w2_MPf17_MP,substituted_v-w2_MPf36_MP,sum,"""sic enim est dispositio rerum in veritate [...]""","ACT(obl), LOC(obl)",,,,,,
 v-w2_MPf16_MP,substituted_v-w2_MPf17_MP,sum,"""sic enim est dispositio rerum in veritate [...]""","ACT(obl), LOC(obl)",,,,,,
 v-w2_MPf15_MP,substituted_v-w2_MPf16_MP,sum,,"ACT(obl), LOC(obl)",,,,,,
-v-w2_MPf156_MP,reviewed,sum,"""appetibile autem est movens [..]""","ACT(obl), PAT(obl)",1,identity-91,ARG1|ARG2,,,
+v-w2_MPf156_MP,reviewed,sum,"""appetibile autem est movens [..]""","ACT(obl), PAT(obl)",1,have-role-91,ARG1|ARG2,,,
 v-w2_MPf33_MP,substituted_v-w2_MPf97_MP,sum,"""[...] sapientis est ordinare [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf22_MP,substituted_v-w2_MPf33_MP,sum,"""[...] sapientis est ordinare [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf18_MP,substituted_v-w2_MPf22_MP,sum,"""[...] sapientis est ordinare [...]""","ACT(obl), PAT(obl)",,,,,,
@@ -104,7 +104,7 @@ v-w2_MPf160_MP,reviewed,sum,"""secundum est, quod supponitur [...]""","ACT(obl),
 v-w2_MPf35_MP,substituted_v-w2_MPf98_MP,sum,"""finis [...] est bonum""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf20_MP,substituted_v-w2_MPf35_MP,sum,"""finis [...[ est bonum""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf21_MP,obsolete,sum,"""[...[ unam esse gubernativam et quasi principem [...]""","ACT(obl), PAT(obl)",,,,,,
-v-w2_MPf162_MP,reviewed,sum,"""ergo oportet ponere aliquid quod sit necesse-est""","ACT(obl), PAT(obl)",23,identity-91,ARG1|ARG2,,,always with est necesse-esse
+v-w2_MPf162_MP,reviewed,sum,"""ergo oportet ponere aliquid quod sit necesse-est""","ACT(obl), PAT(obl)",23,have-role-91,ARG1|ARG2,,,always with est necesse-esse
 v-w2_MPf23_MP,substituted_v-w2_MPf100_MP,sum,"""[...] qui item est universitatis principium""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf101_MP,obsolete,sum,"""finis [...] est qui intenditur [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf24_MP,substituted_v-w2_MPf101_MP,sum,"""finis [...] est qui intenditur a primo auctore vel motore ipsius""","ACT(obl), PAT(obl)",,,,,,
@@ -136,7 +136,7 @@ v-w2_MPf43_MP,substituted_v-w2_MPf113_MP,sum,"""quaedam vero sunt ad quae etiam 
 v-w2_MPf44_MP,obsolete,sum,"""[...] sicut est deum esse [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf176_MP,reviewed,sum,"""secunda obiectio est quia [...] aliqua virtus potest esse [...]""","ACT(obl), PAT(obl)",2,identity-91,ARG1|ARG2,,,same frame and context as above
 v-w2_MPf45_MP,substituted_v-w2_MPf115_MP,sum,"""[...] sicut est deum esse [...]""",ACT(obl),,,,,,
-v-w2_MPf177_MP,reviewed,sum,"""quod autem deus non sit unitus corpori sicut anima alterius rationis est""","ACT(obl), PAT(obl)",1,identity-91,ARG1|ARG2,,,
+v-w2_MPf177_MP,reviewed,sum,"""quod autem deus non sit unitus corpori sicut anima alterius rationis est""","ACT(obl), PAT(obl)",1,have-role-91,ARG1|ARG2,,,
 v-w2_MPf117_MP,substituted_v-w2_MPf120_MP,sum,"""[...] quod quid est""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf46_MP,substituted_v-w2_MPf117_MP,sum,"""[...] (principium) quod quid est""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf180_MP,reviewed,sum,"""[...] non sit potentia infinita [...] extra magnitudinem""","ACT(obl), LOC(non)",1,have-place-91,ARG1|ARG2,,,
@@ -184,7 +184,7 @@ v-w2_MPf200_MP,reviewed,sum,"""cum ergo divinitatem super omnia dixit [...]""","
 v-w2_MPf71_MP,substituted_v-w2_MPf135_MP,sum,"""huiusmodi autem est hoc [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf201_MP,reviewed,sum,"""sicut est (tactus et commixtio) puncti ad lineam [...]""","ACT(obl), PAT(obl)",2,sum,ARG1|ARG2,,,"I disagree with the t-tree (PAT). for the paper, show that sometimes UMR conceptually differs from PDT. the second example would require have-reason-91, but that implies a structural change that is not applicable to the first example"
 v-w2_MPf72_MP,substituted_v-w2_MPf102_MP,sum,"""[...] in intellectu iam Deum esse oporteat""","ACT(obl), LOC(non)",,,,,,
-v-w2_MPf202_MP,reviewed,sum,"""[...] id [...] non tam rem completam, quam rei aliquid esse""","ACT(obl), PAT(obl)",1,identity-91,ARG1|ARG2,,,"probably a separate frame bacause of the comparison, but that one level down for UMR"
+v-w2_MPf202_MP,reviewed,sum,"""[...] id [...] non tam rem completam, quam rei aliquid esse""","ACT(obl), PAT(obl)",1,have-role-91,ARG1|ARG2,,,"probably a separate frame bacause of the comparison, but that one level down for UMR"
 v-w2_MPf73_MP,substituted_v-w2_MPf137_MP,sum,"""quod est contra rationem nominis""","ACT(obl), LOC(non)",,,,,,
 v-w2_MPf138_MP,obsolete,sum,"""[...] si idem sit quod respondetur ad quaestionem quid est [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf74_MP,substituted_v-w2_MPf138_MP,sum,"""[...] si idem sit quod respondetur ad quaestionem quid est [...]""","ACT(obl), PAT(obl)",,,,,,
@@ -195,7 +195,7 @@ v-w2_MPf76_MP,substituted_v-w2_MPf140_MP,sum,"""(lux) cum sit in quo primum maxi
 v-w2_MPf205_MP,reviewed,sum,"""[...] sicut (nomina) est bonitas, sapientia, esse et alia huiusmodi""","ACT(obl), PAT(obl)",1,have-example-91,ARG1|ARG2,,"the correct conversion would have resulted in an inverted relation. Leave the generated mistake, possibly to discuss in the paper.",
 v-w2_MPf94_MP,substituted_v-w2_MPf229_MP,sum,"""nam quod possit cogitari non esse est [...]""",ACT(obl),,,,,,
 v-w2_MPf78_MP,substituted_v-w2_MPf94_MP,sum,"""nam quod possit cogitari non esse, non ex imperfectione sui esse est vel incertitudine [...]""","ACT(obl), ORIG(obl)",,,,,,
-v-w2_MPf206_MP,reviewed,sum,"""[...] aliud est forma et habens formam [...]""","ACT(obl), PAT(obl)",1,identity-91,ARG1|ARG2,,,
+v-w2_MPf206_MP,reviewed,sum,"""[...] aliud est forma et habens formam [...]""","ACT(obl), PAT(obl)",1,have-role-91,ARG1|ARG2,,,
 v-w2_MPf79_MP,substituted_v-w2_MPf84_MP,sum,"""huiusmodi autem est deum esse""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf208_MP,reviewed,sum,"""virtus autem huiusmodi nisi aliqualiter esset de genere caloris [...]""","ACT(obl), PAT(obl)",2,pred-possession-91,ARG1|ARG2,,,
 v-w2_MPf80_MP,substituted_v-w2_MPf143_MP,sum,"""[...] non sit aluqa scibilis substantia supra substantiam sensibilem [...]""","ACT(obl), LOC(non)",,,,,,
@@ -220,12 +220,12 @@ v-w2_MPf92_MP,substituted_v-w2_MPf155_MP,sum,"""nam appetens est quodammodo move
 v-w2_MPf218_MP,reviewed,sum,"""nec potest esse ex diversis ordinantibus [...]""","ACT(obl), ORIG(obl)",1,have-source-91,ARG1|ARG2,,,
 v-w2_MPf93_MP,substituted_v-w2_MPf157_MP,sum,"""quorum primum est quod procedunt ex suppositione aeternitatis motus""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf219_MP,reviewed,sum,"""unus dominus, una fides, etc.""",ACT(obl),1,exist-91,ARG1,,,
-v-w2_MPf220_MP,reviewed,sum,"""[...] patrem et filium non unum, sed plures deos esse [...]""","ACT(obl), PAT(obl)",1,identity-91,ARG1|ARG2,,,
+v-w2_MPf220_MP,reviewed,sum,"""[...] patrem et filium non unum, sed plures deos esse [...]""","ACT(obl), PAT(obl)",1,have-role-91,ARG1|ARG2,,,
 v-w2_MPf110_MP,substituted_v-w2_MPf252_MP,sum,"""[...] ipsi gentiles fuerant, vel saltem inter gentiles conversati et in eorum doctrinis eruditi""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf222_MP,reviewed,sum,"""[...] appetibile autem et apprehensum est movens non motum""","ACT(obl), PAT(obl)",1,have-role-91,ARG1|ARG2,,,
 v-w2_MPf224_MP,reviewed,sum,"""[...] (castra) post eum quae erant [...]""","ACT(obl), LOC(non)",2,have-place-91,ARG1|ARG2,,,
 v-w2_MPf225_MP,reviewed,sum,"""[...] erat civitas magna inter Belgas auctoritate [...]""","ACT(obl), PAT(obl)",4,have-mod-91,ARG1|ARG2,,,
-v-w2_MPf226_MP,reviewed,sum,"""[...] (agri) qui magno nobis usui ad bellum gerendum erant [...]""","ACT(obl), PAT(obl)",5,identity-91,ARG1|ARG2,,,
+v-w2_MPf226_MP,reviewed,sum,"""[...] (agri) qui magno nobis usui ad bellum gerendum erant [...]""","ACT(obl), PAT(obl)",5,have-role-91,ARG1|ARG2,,,
 v-w2_MPf227_MP,reviewed,sum,"""inde duae legiones [...] praesidioque impedimentis erant""","ACT(obl), PAT(obl)",9,have-role-91,ARG1|ARG2,,,
 v-w2_MPf229_MP,reviewed,sum,"""nam quod possit cogitari non esse [...] est [...]""",ACT(obl),9,sum-01,ARG1,,,
 v-w2_MPf232_MP,reviewed,sum,"""[...] mihi a spe metu partibus rei publicae animus liber erat""","ACT(obl), PAT(obl)",1,pred-possession-91,ARG1|ARG2,,,
@@ -258,7 +258,7 @@ v-w2_MPf249_MP,reviewed,sum,"""[...] sed alia alii (fuere)""","ACT(obl), PAT(obl
 v-w2_MPf250_MP,reviewed,sum,"""nunc vero quo loco res nostrae sint [...]""","ACT(obl), LOC(non)",1,have-place-91,ARG1|ARG2,,,
 v-w2_MPf251_MP,reviewed,sum,"""[...] planities inter sinistros montis et ab dextra rupe aspera [...]""","ACT(obl), LOC(non)",1,have-place-91,ARG1|ARG2,,,
 v-w2_MPf178_MP,substituted_v-w2_MPf255_MP,sum,"""nec est incoveniens [...] quod illud [...]acquirat ab alio perpetuitatem motus [...]""","ACT(obl), PAT(obl)",,,,,,
-v-w2_MPf252_MP,reviewed,sum,"""[...] ipsi gentiles fuerant, vel saltem inter gentiles conversati et in eorum doctrinis eruditi""","ACT(obl), PAT(obl)",1,identity-91,ARG1|ARG2,,,
+v-w2_MPf252_MP,reviewed,sum,"""[...] ipsi gentiles fuerant, vel saltem inter gentiles conversati et in eorum doctrinis eruditi""","ACT(obl), PAT(obl)",1,have-role-91,ARG1|ARG2,,,
 v-w2_MPf179_MP,substituted_v-w2_MPf180_MP,sum,"""[...]
  non sit potentia infinita [...] extra magnitudinem""","ACT(obl), LOC(non)",,,,,,
 v-w2_MPf253_MP,reviewed,sum,"""[...] de non esse in esse quando factum est tunc recte perfectum esse dicitur [...]""","ACT(obl), PAT(obl)",2,have-mod-91,ARG1|ARG2,,,
@@ -274,7 +274,7 @@ v-w2_MPf47_MP,reviewed,sum,"""[...] pertinet ad primum principium essendi omnibu
 v-w2_MPf189_MP,obsolete,sum,"""cuicumque intest aliquod accidens, non est quidquid habet in se [...]""","ACT(obl), PAT(obl)",,,,,,
 v-w2_MPf81_MP,reviewed,sum,"""aut ergo est procedere in infinitum""",ACT(obl),5,"(!delete,ACT)","!root,!modal-strength(partial-affirmative)",,"delete concept, change modal-strength into partial-aff.",
 v-w2_MPf84_MP,reviewed,sum,"""huiusmodi autem est deum esse""","ACT(obl), PAT(obl)",1,have-mod-91,ARG1|ARG2,,,
-v-w2_MPf85_MP,reviewed,sum,"""[...] intelligere et opinari sit quoddam moveri""","ACT(obl), PAT(obl)",1,identity-91,ARG1|ARG2,,,
+v-w2_MPf85_MP,reviewed,sum,"""[...] intelligere et opinari sit quoddam moveri""","ACT(obl), PAT(obl)",1,have-role-91,ARG1|ARG2,,,
 v-w2_MPf95_MP,reviewed,sum,"""apud quem non est transmutatio""","ACT(obl), LOC(non)",1,have-place-91,ARG1|ARG2,,,
 v-w2_MPf96_MP,reviewed,sum,"""quod sit officium sapientis""","ACT(obl), PAT(obl)",74,identity-91,ARG1|ARG2,,,
 v-w2_MPf97_MP,reviewed,sum,"""[...] sapientis est ordinare""","ACT(obl), PAT(obl)",7,sum-NEW-09,ARG1|ARG2,be proper / typical of,,
@@ -321,7 +321,7 @@ v-w73_MPf58_MP,reviewed,habeo,"""[...] paupertas probro haberi [...] coepit""","
 v-w73_MPf59_MP,reviewed,habeo,"""[...] pudorem pudicitiam divina atque humana promiscua [...] habere""","ACT(obl), PAT(obl), EFF(obl)",3,habeo-07,ARG0|ARG1|ARG2,,,
 v-w73_MPf61_MP,reviewed,habeo,"""at fulvia [...] tale periculum rei publicae haud occultum habuit [...]""","ACT(obl), PAT(obl), EFF(obl)",1,habeo-NEW-25,ARG0|ARG1|ARG2,,,
 v-w73_MPf63_MP,reviewed,habeo,"""[...] exercitus manli quantus aut quo consilio foret satis compertum habebat [...]""","ACT(obl), PAT(obl), EFF(obl)",1,habeo-compertum-NEW-01,ARG0|ARG1|!delete,know full well,discarding children is done automatically,
-v-w73_MPf64_MP,reviewed,habeo,"""sed allobroges diu in incerto habuere quidnam consilii caperent""","ACT(obl), PAT(obl)",1,habeo-in-incerto-NEW-01 if(echild.functor:MANN)(!delete),ARG0|ARG1,"not know, be unsure about","delete MANN (not in frame, tho)",
+v-w73_MPf64_MP,reviewed,habeo,"""sed allobroges diu in incerto habuere quidnam consilii caperent""","ACT(obl), PAT(obl)",1,habeo-in-incerto-NEW-01 if(echild.functor:MANN)(!delete) else !ok,ARG0|ARG1,"not know, be unsure about","delete MANN (not in frame, tho)",
 v-w73_MPf65_MP,reviewed,habeo,"""[...] eos quam maxume manufestos habeant""","ACT(obl), PAT(obl), EFF(obl)",3,habeo-NEW-25,ARG0|ARG1|ARG2,,,
 v-w73_MPf66_MP,reviewed,habeo,"""[...] quid aut qua de causa consili habuisset [...]""","ACT(obl), PAT(obl)",1,thetic-possession-91,ARG1|ARG2,,,
 v-w73_MPf67_MP,reviewed,habeo,"""[...] lentulus itemque ceteri in liberis custodiis habeantur""","ACT(obl), PAT(obl)",1,habeo-NEW-32,ARG0|ARG1,keep under control; keep in check (02681795),,
